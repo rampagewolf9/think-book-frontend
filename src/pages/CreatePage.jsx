@@ -4,11 +4,13 @@ import toast from "react-hot-toast";
 // Note: Depending on your React Router version, this usually comes from "react-router-dom"
 import { Link, useNavigate } from "react-router-dom";
 import api from "../lib/axios";
+import { useAuth } from "../context/AuthContext";
 
 const CreatePage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+    const { user } = useAuth();
 
     const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const CreatePage = () => {
             await api.post("/notes", {
                 title,
                 content,
+                userId: user?.userId,
             });
 
             toast.success("Note created successfully!");
